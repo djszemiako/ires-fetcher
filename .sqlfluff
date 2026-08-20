@@ -1,0 +1,29 @@
+# Lint config for the SQL catalog in `src/ires_fetch/sql`. DEV TOOLING ONLY:
+#
+#   uv run sqlfluff lint src/ires_fetch/sql
+#
+# The context below exists ONLY so the templater can parse the files standalone; the
+# values a run interpolates come from `IDENTIFIERS` in `statements.py`.
+[sqlfluff]
+# RF04: `start` / `rows` / `sort` are the published column names and DuckDB keywords.
+# CP03/CP04: house style is `CAST`/type names and `NULL` upper, scalar functions lower.
+exclude_rules = references.keywords,capitalisation.functions,capitalisation.literals
+dialect = duckdb
+templater = jinja
+max_line_length = 92
+
+[sqlfluff:indentation]
+indented_joins = false
+indented_ctes = false
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.identifiers]
+extended_capitalisation_policy = lower
+
+[sqlfluff:templater:jinja:context]
+responses = _responses
+recalls_source = _recalls_source
+workset = _workset
+fetched_responses = _fetched_responses

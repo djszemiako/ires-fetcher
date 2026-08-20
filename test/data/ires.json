@@ -1,0 +1,449 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "",
+        "version": "2.0.0",
+        "title": "Enforcement Reports API Usage Documentation"
+    },
+    "tags": [
+        {
+            "name": "iRES",
+            "description": "Everything about the API"
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "host": "",
+    "basePath": "/rest/iresapi/",
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Authorization_User": {
+            "type": "apiKey",
+            "name": "Authorization-User",
+            "in": "header"
+        },
+        "Authorization_Key": {
+            "type": "apiKey",
+            "name": "Authorization-Key",
+            "in": "header"
+        }
+    },
+    "security": [
+        {
+            "Authorization_User": []
+        },
+        {
+            "Authorization_Key": []
+        }
+    ],
+    "paths": {
+	"/search/producttypes": {
+            "get": {
+                "description": "Gets the list of all the available Product Types within the iRES application in JSON format including the following columns:  centercd, producttypeshorttxt.\n",
+                "summary": "Links",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/ParentResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Authorization has been denied for this request"
+                    }
+                }
+            }
+        },
+         "/recalls/event/{eventid}": {
+            "get": {
+                "description": "Gets the event information for a given event ID in JSON format including the following columns: recalleventid, firmcitynam, firmcountrynam, firmline1adr, firmline2adr, firmstatecd, firmpostalcd, phasetxt, recallinitiationdt, firmlegalnam, voluntarytypetxt, distributionareasummarytxt, centercd, createdt, firmstateprvncnam, centerclassificationdt, terminationdt, initialfirmnotificationtxt, distributionpatternindicator, distributionpatternshort, determinationdt, enforcementreportdt, eventlmd, firmfeinum, firmsurvivingnam, firmsurvivingfei.\n",
+                "summary": "Links",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "eventid",
+                        "description": "ID of event",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ParentResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Authorization has been denied for this request"
+                    },
+                    "421": {
+                        "description": "Event Id provided should be numeric"
+                    }
+                }
+            }
+        },
+ 
+        "/recalls/product/{productid}": {
+            "get": {
+                "description": "Gets the product information for a given product ID in JSON format including the following columns: productid, productdescriptiontxt, recalleventid, productshortreasontxt, producttypeshort, recallnum, productdistributedquantity, centerclassificationtypetxt, productdescriptionindicator, productdescriptionshort, recallreasonindicator, recallreasonshort, codeinfoindicator, enforcementreportdt, productlmd, determinationdt, codeinformation, codeinfoshort. \n",
+                "summary": "Links",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "productid",
+                        "description": "ID of product",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ParentResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Authorization has been denied for this request"
+                    },
+                    "427": {
+                        "description": "Product Id provided should be numeric"
+                    }
+                }
+            }
+        },
+		"/recalls/eventproducts/{eventid}": {
+            "get": {
+                "description": "Gets all the Products for a given event ID in JSON format including the following columns: productid, productdescriptiontxt, recalleventid, productshortreasontxt, producttypeshort, recallnum, productdistributedquantity, centerclassificationtypetxt, productdescriptionindicator, productdescriptionshort, recallreasonindicator, recallreasonshort, codeinfoindicator, enforcementreportdt, determinationdt, firmfeinum, firmsurvivingnam, firmsurvivingfei, firmlegalnam, codeinformation, codeinfoshort. \n",
+                "summary": "Links",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "eventid",
+                        "description": "ID of event",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ParentResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Authorization has been denied for this request"
+                    },
+                    "421": {
+                        "description": "Event Id provided should be numeric"
+                    }
+                }
+            }
+        },
+		"/search/codeinfo/{productid}": {
+            "get": {
+                "description": "Gets the code information for a given product ID in JSON format including the following columns:  productid, codeinformation.\n",
+                "summary": "Links",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "productid",
+                        "description": "ID of product",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ParentResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Authorization has been denied for this request"
+                    },
+                    "427": {
+                        "description": "Product Id provided should be numeric"
+                    }
+                }
+            }
+        },
+		"/search/producthistory/{productid}": {
+            "get": {
+                "description": "Gets the product history for a given product ID in JSON format including the following columns: eventid, productid, fieldname, productlmd, newvalue, oldvalue.\n",
+                "summary": "Links",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "productid",
+                        "description": "ID of product",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ParentResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Authorization has been denied for this request"
+                    },
+                    "427": {
+                        "description": "Product Id provided should be numeric"
+                    }
+                }
+            }
+        },
+		"/search/eventproducthistory/{eventid}": {
+            "get": {
+                "description": "Gets the event history for a given event ID in JSON format including the following columns: eventid, productid, fieldname, eventlmd, newvalue, oldvalue.\n",
+                "summary": "Links",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "eventid",
+                        "description": "ID of event",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ParentResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Authorization has been denied for this request"
+                    },
+                    "421": {
+                        "description": "Event Id provided should be numeric"
+                    }
+                }
+            }
+        },
+        "/search/pressreleaseurls/{eventid}": {
+            "get": {
+                "description": "Gets all the press releases for a given event ID in JSON format including the following columns: recalleventid, pressreleasetype, pressreleaseissuedt, pressreleaseurl.\n",
+                "summary": "Links",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "eventid",
+                        "description": "ID of event",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ParentResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Authorization has been denied for this request"
+                    },
+                    "421": {
+                        "description": "Event Id provided should be numeric"
+                    }
+                }
+            }
+        },
+        "/recalls/": {
+            "post": {
+                "description":"Gets all the recalls based on the criteria using a payload.\n\n<b>Payload Structure - The structure can be in any order</b>\n\n{\"displaycolumns\":\"\",\"filter\":\"[]\",\"start\":1, \"rows\":10, \"sort\":\"\",\"sortorder\":\"\"}\n\nThe \"payload\" parameter is added in the request body with the value being in the payload structure noted above and with examples below. The payload should be added as form data or json.\n\n<b>Display columns</b> - A list of columns (without spaces) that are retrieved from the dataset. Possible values:\n\n<i>productid, recalleventid, producttypeshort, firmcitynam, firmcountrynam, firmline1adr, firmline2adr, firmstatecd, firmpostalcd, phasetxt, recallinitiationdt, firmlegalnam, voluntarytypetxt, distributionareasummarytxt, centercd, firmstateprvncnam, centerclassificationdt, terminationdt, initialfirmnotificationtxt, centerclassificationtypetxt, enforcementreportdt, firmfeinum, firmsurvivingnam, firmsurvivingfei, eventlmd, productdescriptiontxt, productshortreasontxt, recallnum, productdistributedquantity, determinationdt, postedinternetdt, rid, codeinformation</i>\n\n<b>Start</b> -  A numeric value used to indicate the beginning of a dataset, used as an offset for pagination of smaller datasets. This is a required parameter.\n\n<b>Rows </b>- A numeric value used to indicate the number of rows requested from the dataset. This is a required parameter.\n\nThe payload retrieves 5000 records at a time if the \"Code Information\" column is not specified in the \"displaycolumns\" parameter.\n\nThe payload retrieves 2500 records at a time if the \"Code Information\" column is specified in the \"displaycolumns\" parameter.\n\n<b>Sort </b>- A string containing the field that sorting is primarily applied on the dataset. Sort can accept only one value. This is a required parameter. Column names used in the sort are case insensitive. The values that can be used to sort are: \n\n<i>productid, recalleventid, producttypeshort, firmcitynam, firmcountrynam, firmline1adr, firmline2adr, firmstatecd, firmpostalcd, phasetxt, recallinitiationdt, firmlegalnam, voluntarytypetxt, distributionareasummarytxt, centercd, firmstateprvncnam, centerclassificationdt, terminationdt, initialfirmnotificationtxt, centerclassificationtypetxt, firmfeinum, firmsurvivingnam, firmsurvivingfei, eventlmd, productdescriptiontxt, productshortreasontxt, recallnum, productdistributedquantity, determinationdt, enforcementreportdt, postedinternetdt</i>\n\n<b>SortOrder </b>- A string that specifies the order in which sorting is applied on the dataset. SortOrder can accept only one value. This is a required parameter. Possible values are either \"asc\" for sorting by ascending order or \"desc\" for sorting by descending order.\n\n<b>Filter </b>- An array of filters in key value pairs using single quotes that can be applied over the dataset. Filters are optional but a blank filter parameter is required for the payload.  Filters can accept only one value at a time. Column names used as filters are case insensitive and values input will perform a full text search. The following are filters that can accept multiple values and the values they can accept:\n\n &#9679; 'phasetxt':['terminated','completed','ongoing']\n\n &#9679; 'centercd':['CBER','CDER','CDRH','CFSAN','CTP','CVM','HFP','OCS']\n\n &#9679; 'centerclassificationtypetxt':['3','2','1','NC']  \n\nThe values that can be used to filter are:\n\n <i>productid, recalleventid, producttypeshort, firmcitynam, firmcountrynam, firmline1adr, firmline2adr, firmstatecd, firmpostalcd, phasetxt, recallinitiationdtfrom, recallinitiationdtto, firmlegalnam, voluntarytypetxt, distributionareasummarytxt, centercd, firmstateprvncnam, centerclassificationdtfrom, centerclassificationdtto, terminationdtfrom, terminationdtto, initialfirmnotificationtxt, centerclassificationtypetxt, firmfeinum, firmsurvivingnam, firmsurvivingfei, eventlmdfrom, eventlmdto, productdescriptiontxt, productshortreasontxt, recallnum, productdistributedquantity, determinationdtfrom, determinationdtto, enforcementreportdtfrom, enforcementreportdtto, postedinternetdtfrom, postedinternetdtto</i> \n\n \n\n<b>Examples of Payloads to retrieve Recalls:</b>\n\n<b>1. </b>Payload to retrieve all Product IDs\n\n{\"displaycolumns\":\"\", \"filter\":\"[]\", \"start\":1, \"rows\":5000, \"sort\":\"productid\",\"sortorder\":\"asc\"}\n\n <b>2. </b>Payload to retrieve columns stored as Text BLOBS (large text fields) in the output\n\n{\"displaycolumns\":\"productdescriptiontxt,productshortreasontxt,productdistributedquantity,codeinformation\",\"filter\":\"[]\", \"start\":1, \"rows\":2500, \"sort\":\"productid\", \"sortorder\":\"asc\"}\n\n<b>3.</b> Payload to retrieve Recalls where Product Description, Reason for Recall, Classification, or Code Information has been updated \n\n{\"displaycolumns\":\"eventlmd,recalleventid,firmcitynam\",\"filter\":\"[{'eventlmdfrom':'07/24/2018'} ,{'eventlmdto':'09/24/2018'}]\",\"start\":1,\"rows\":50,\"sort\":\"productid\",\"sortorder\":\"asc\"}\n\n<b>4.</b> Payload to filter multiple values \n\n{\"displaycolumns\":\"productdescriptiontxt,productshortreasontxt,productdistributedquantity,codeinformation,phasetxt\",\"filter\":\"[{'phasetxt':['terminated','completed','ongoing']}]\", \"start\": 1,\"rows\": 2500, \"sort\": \"productid\", \"sortorder\": \"asc\"}\n\n{\"displaycolumns\":\"recalleventid,centerclassificationtypetxt,firmcitynam\", \"filter\":\"[ {'centerclassificationtypetxt':['3','2','1','NC']}]\", \"start\":1,\"rows\":75,\"sort\":\"productid\",\"sortorder\":\"asc\"}\n\n{\"displaycolumns\":\"recalleventid,centerclassificationtypetxt,firmcitynam,centercd\",\"filter\":\"[ {'centercd':['CBER','CFSAN']}]\", \"start\":1,\"rows\":75,\"sort\":\"productid\",\"sortorder\":\"asc\"}\n\n<b>5. </b>Payload to filter by a single value\n\n{\"displaycolumns\":\"productdescriptiontxt,productshortreasontxt,productdistributedquantity,codeinformation\",\"filter\":\"[{'productdescriptiontxt':'Colonoscope'}]\", \"start\": 1,\"rows\": 2500,\"sort\": \"productid\",\"sortorder\": \"asc\"}\n\n<b>Notes:</b>\n\n1.  The API Endpoint returns all data when no filters are defined up to the row limits noted above.\n\n2.  PRODUCTID column is the unique key for each record returned.\n\n3.  PRODUCTID and RID are the default columns returned when no value is specified in the \"displaycolumns\" parameter. \n\n4. Filtering on date range using only the \"from\" date parameter  considers today's date as the \"to\" date unless specified. \n\n5. Filtering on date range using only the \"to\" date parameter considers the earliest date in the database as the \"from\" date unless specified.\n\n6. The following are code examples for using the POST operation in various languages:\n\n1. <a href='/scripts/ires/apidocs/ires-python.txt'>Python </a>\n\n2. <a href='/scripts/ires/apidocs/ires-php.txt'>PHP </a>\n\n3. <a href='/scripts/ires/apidocs/ires-Java.txt'>Java </a>\n\n4. <a href='/scripts/ires/apidocs/ires-C.NET.txt'>C# </a>",
+                "summary": "Links",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "formData",
+                        "name": "payLoad",
+                        "description": "payload input",
+                        "required": true,
+						 "type": "string",
+						"paramType": "form",
+						"htmlinput": "textarea"
+						
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/ParentResult"
+                        }
+                    },
+                    "400": {
+                        "description": "Success"
+                    },
+                    "401": {
+                        "description": "Authorization has been denied for this request"
+                    },
+                    "402": {
+                        "description": "The input provided is not a valid JSON format"
+                    },
+                    "403": {
+                        "description": "The input provided is not in the expected payload structure"
+                    },
+                    "406": {
+                        "description": "The payload displaycolumns does not match with the datagroup"
+                    },
+                    "407": {
+                        "description": "The payload sort does not match with the datagroup"
+                    },
+                    "408": {
+                        "description": "The payload start should be numeric value and should be greater than 0"
+                    },
+                    "409": {
+                        "description": "The payload rows should be numeric value and should be greater than 0 or blank if you intend to retrieve all rows"
+                    },
+                    "411": {
+                        "description": "The payload sortorder is invalid"
+                    },
+                    "412": {
+                        "description": "No results found"
+                    },
+					"414": {
+                        "description": "The payload is missing"
+                    },
+                    "413": {
+                        "description": "The payload filters are invalid"
+                    },
+                    "417": {
+                        "description": "The payload rows should be less than or equal to 2500 if you intend to retrieve Code Information data"
+                    },
+                    "418": {
+                        "description": "Too many rows requested at this time. Please fetch rows fewer than 5000"
+                    }
+                   
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ParentResult": {
+            "type": "object",
+            "required": [
+                "MESSAGE",
+                "RESULTCOUNT",
+                "APIRETURNCODE",
+                "RESULT"
+            ],
+            "properties": {
+                "MESSAGE": {
+                    "type": "string"
+                },
+                "RESULTCOUNT": {
+                    "type": "number"
+                },
+                "APIRETURNCODE": {
+                    "type": "number"
+                },
+                "RESULT": {
+                    "$ref": "#/definitions/Result"
+                }
+            }
+        },
+        "Result": {
+            "type": "object",
+            "required": [
+                "COLUMNS",
+                "DATA"
+            ],
+            "properties": {
+                "COLUMNS": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "DATA": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "ProductCode": {
+            "type": "object",
+            "required": [
+                "MESSAGE",
+                "APIRETURNCODE"
+            ],
+            "properties": {
+                "MESSAGE": {
+                    "type": "string"
+                },
+                "APIRETURNCODE": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

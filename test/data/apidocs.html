@@ -1,0 +1,144 @@
+
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>iRES API</title>
+  <link rel="icon" type="image/png" href="https://www.accessdata.fda.gov/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/png" href="https://www.accessdata.fda.gov/favicon.ico" sizes="16x16" />
+  <link href='css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link href='css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link href='css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+  <link href='css/reset.css' media='print' rel='stylesheet' type='text/css'/>
+  <link href='css/print.css' media='print' rel='stylesheet' type='text/css'/>  
+  
+	
+
+  <script src='lib/object-assign-pollyfill.js' type='text/javascript'></script>
+  <script src='lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+  <script src='lib/jquery.slideto.min.js' type='text/javascript'></script>
+  <script src='lib/jquery.wiggle.min.js' type='text/javascript'></script>
+  <script src='lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+  <script src='lib/handlebars-4.0.5.js' type='text/javascript'></script>
+  <script src='lib/lodash.min.js' type='text/javascript'></script>
+  <script src='lib/backbone-min.js' type='text/javascript'></script>
+  <script src='lib/highlight.9.1.0.pack.js' type='text/javascript'></script>
+  <script src='lib/highlight.9.1.0.pack_extended.js' type='text/javascript'></script>
+  <script src='lib/jsoneditor.min.js' type='text/javascript'></script>
+  <script src='lib/marked.js' type='text/javascript'></script>
+  <script src='lib/swagger-oauth.js' type='text/javascript'></script>
+  <script src='swagger-ui.js' type='text/javascript'></script>
+
+  <!-- Some basic translations -->
+  <!-- <script src='lang/translator.js' type='text/javascript'></script> -->
+  <!-- <script src='lang/ru.js' type='text/javascript'></script> -->
+  <!-- <script src='lang/en.js' type='text/javascript'></script> -->
+
+  <script type="text/javascript">
+    $(function () {
+      $('#wcmscontent').show();      
+      /* SE: WSHA-5808 Styling changes  */
+      $('#wcmscontent a[href*="mailto"]').each(function() {            
+      	$(this).attr("target","_parent");
+      });
+      $('#wcmscontent a[href*="requestForm"]').each(function() {            
+      	$(this).attr("target","_self");
+      });
+      
+      var url = window.location.search.match(/url=([^&]+)/);
+      if (url && url.length > 1) {
+        url = decodeURIComponent(url[1]);
+      } else {
+        url = "src/main/ires.json";
+      }
+
+      hljs.configure({
+        highlightSizeThreshold: 5000
+      });
+
+      // Pre load translate...
+      if(window.SwaggerTranslator) {
+        window.SwaggerTranslator.translate();
+      }
+      window.swaggerUi = new SwaggerUi({
+        url: url,
+        dom_id: "swagger-ui-container",
+		validatorUrl : null,
+        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+        onComplete: function(swaggerApi, swaggerUi){
+          if(typeof initOAuth == "function") {
+            initOAuth({
+              clientId: "your-client-id",
+              clientSecret: "your-client-secret-if-required",
+              realm: "your-realms",
+              appName: "your-app-name",
+              scopeSeparator: " ",
+              additionalQueryStringParams: {}
+            });
+          }
+
+          if(window.SwaggerTranslator) {
+            window.SwaggerTranslator.translate();
+          }
+
+          $("textarea[name='payLoad']").val('');
+        },
+        onFailure: function(data) {
+          log("Unable to Load SwaggerUI");
+        },
+        docExpansion: "none",
+        jsonEditor: false,
+        defaultModelRendering: 'schema',
+        showRequestHeaders: false
+      });
+
+      window.swaggerUi.load();
+		
+      function log() {
+       /* if ('console' in window) {
+          console.log.apply(console, arguments);
+       } */
+      }
+  });
+
+
+	
+
+  </script>
+
+
+</head>
+ 
+
+  <body class="swagger-section">
+    <h1 style='display:none'>Enforcement Reports API Usage Documentation</h1>
+    <div  id='header'>
+      <div class="swagger-ui-wrap">
+        <a href="https://www.fda.gov/default.htm" >
+          <img class="logo__img" alt="fda" height="40" width="200" src="images/gov-fda-new-white.svg" /><span class="logo__title"></span>
+        </a>
+
+        <form id='api_selector' >
+         
+           <div id="wcmscontent"> 
+                
+                   <p>Welcome to the Enforcement Reports API Usage Documentation page. The documentation provides information regarding how the API retrieves recall information using the various REST Endpoints for the Enforcement Reports application, called iRES (internet Recall Enterprise System). REST endpoints provide a &#39;RESTful&#39; web service that generates an action to retrieve or act upon a specific piece of information that resides in a database.</p>  <p>To use the API REST Endpoints, enter the Authorization-User and Authorization-Key by clicking the iRES&nbsp;<img alt="iRES Authorize Button" src="https://www.accessdata.fda.gov/scripts/ires/apidocs/images/Auth_btn.png" />&nbsp;Button at the top. Please submit authorization key requests using the online&nbsp;<a href="https://www.accessdata.fda.gov/scripts/oul/" target="_parent" title="OII Unified Logon">OII Unified Logon</a>&nbsp;application.</p>  <p>Each REST Endpoint is documented below and allows users that have entered the Authorization-User and Authorization-Key on this page to see how the request URL is constructed for each REST Endpoint and what each returns. For information on the definition of each result column, please visit the&nbsp;<a href="https://www.fda.gov/safety/enforcement-reports/enforcement-report-api-definitions">API definitions</a>. When developing a method to utilize this API not using this page, below are some points that may help explain why results are not being returned as expected:</p>  <ul> 	<li> 	<p>The API cannot be used with a typical web browser (e.g. cutting and pasting the request URL into the URL bar of the browser). This is because the API request requires the use of the Authorization-User and Authorization-Key headers to be transmitted with the request.</p> 	</li> 	<li> 	<p>API calls are cached, so when constructing the string for an API call unique signatures should be used (as shown in the request URL examples below using &quot;signature=&quot;). For example, if you send a request which results in a 401 message (i.e. you put the wrong Authorization-User and Authorization-Key in) and you try that same request with the same signature it will still return a 401 message even with the right Authorization-User and Authorization-Key information entered. It is recommended that signatures should use a date and time numeric component to make the request unique.</p> 	</li> 	<li> 	<p>The API server has a specified Access-Control-Allow-Origin and so API calls using some methods may not work. For example, regular JavaScript/JQuery may not work due to web browser security designed to not allow cross-domain calls. This is not an issue when calling the API using server-side code such as Java, PHP, or ColdFusion that make server-level HTTP requests.</p> 	</li> 	<li> 	<p>It is recommended that API calls use TLS 1.2 to avoid any connection related errors.</p> 	</li> 	<li> 	<p>For POST endpoints the header Content-Type should have the value application/x-www-form-urlencoded.</p> 	</li> 	<li>The following are code examples for using the POST operation in various languages: 	<ul> 		<li><a href="https://www.accessdata.fda.gov/scripts/ires/apidocs/ires-Python.txt" target="_blank" title="Python code example">Python</a></li> 		<li><a href="https://www.accessdata.fda.gov/scripts/ires/apidocs/ires-php.txt" target="_blank" title="PHP code example">PHP</a></li> 		<li><a href="https://www.accessdata.fda.gov/scripts/ires/apidocs/ires-java.txt" target="_blank" title="Java code example">Java</a></li> 		<li><a href="https://www.accessdata.fda.gov/scripts/ires/apidocs/ires-C.NET.txt" target="_blank" title="C# code example">C#</a></li> 	</ul> 	</li> </ul>  <p>For requests for assistance regarding the iRES API, please e-mail&nbsp;<a href="mailto:OIIWebApplicationTechTeam@fda.hhs.gov?subject=Enforcement%20Reports%20API" target="_parent">OIIWebApplicationTechTeam@fda.hhs.gov</a>.</p>  <p>Following is an example of the iRES API REST Endpoint. You will need to click on the REST Endpoint title to expand the window.</p>  <p><img alt="iRES REST Endpoint GET button" src="https://www.accessdata.fda.gov/scripts/ires/apidocs/images/samplepath.png" /></p>  <p>Upon clicking, the REST Endpoints display the six sections including Implementation Notes, Response Class, Parameters, Response Messages, Request URL, and Response Body.</p>  <p><strong>Implementation Notes -&nbsp;</strong>Gives a brief description of what data is accessed and displayed.</p>  <p><strong>Response Class -&nbsp;</strong>Indicates the response class description of the API.</p>  <p><strong>Parameters -&nbsp;</strong>Allows entering query parameters for the endpoint in the text box.</p>  <p><strong>Response Messages -&nbsp;</strong>Is a legend that shows the API return codes and their meaning.</p>  <p><strong>Request URL -&nbsp;</strong>Shows the URL of the requested API path.</p>  <p><strong>Response Body -&nbsp;</strong>Shows the response of the API request.</p>  <p>Finally, notice the&nbsp;<strong>Try it out!</strong>&nbsp;button. Once you enter a specific value for the selected REST Endpoint in the Parameters field, click the&nbsp;<strong>Try it out!</strong>&nbsp;button. The results are displayed in the Response Body window.</p>                 
+                        
+                        
+            </div> 
+          
+          <div id='auth_container'>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+
+    <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+    <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+  <script type="text/javascript"  src="/TJeXOp/N/P/vbhv3uDqOw/a7uS0QzkXLwJhD/SxBdJRdhAQ/RE88a/gtZBWwB"></script></body>
+</html>
